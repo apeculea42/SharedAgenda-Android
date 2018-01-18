@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText android:id="@+id/edt_title"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            />
+
+        <EditText android:id="@+id/edt_start_time"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:inputType="time"
+            android:keyboardNavigationCluster="false"
+            android:selectAllOnFocus="false"
+            />
+
+        <EditText android:id="@+id/edt_end_time"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:inputType="time"
+            android:keyboardNavigationCluster="false"
+            android:selectAllOnFocus="false"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkbox_listelem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:buttonTint="@android:color/holo_orange_dark"
+                android:layout_marginLeft="35dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Is your task completed?"
+                android:textColor="#EF5E24"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="SAVE"
+            android:textColor="@android:color/white"
+            android:id="@+id/btn_save_edit"
+            android:background="@android:color/holo_green_dark"
+            android:layout_margin="10dp"
+            />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="DELETE"
+            android:textColor="@android:color/white"
+            android:id="@+id/btn_delete_task"
+            android:background="@android:color/holo_red_dark"
+            android:layout_margin="10dp"
+            />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="DISMISS"
+            android:textColor="@android:color/white"
+            android:id="@+id/btn_dismiss_dialog"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="10dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
