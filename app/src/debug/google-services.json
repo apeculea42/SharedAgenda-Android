@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "597134658406",
+    "firebase_url": "https://shared-agenda.firebaseio.com",
+    "project_id": "shared-agenda",
+    "storage_bucket": "shared-agenda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597134658406:android:61a328d7ac3a49b5",
+        "android_client_info": {
+          "package_name": "com.myherobots.sharedagenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597134658406-osaojuetvpfcai6nk6kds0ou3p8qa4te.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myherobots.sharedagenda",
+            "certificate_hash": "9d59ade5ad375f6226ffbec0586aa08fba57c993"
+          }
+        },
+        {
+          "client_id": "597134658406-j6fhipldl0cpjhgju839ro1s2nm9p0hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIHp_e_Yfexy8NUckKCoHgPmKE9SpGMS4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597134658406-j6fhipldl0cpjhgju839ro1s2nm9p0hl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
