@@ -26,16 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser user;
     ViewPager mViewPager;
+    Toolbar mToolbar;
 
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
-    private Toolbar mToolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -54,25 +57,23 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawer = findViewById(R.id.drawerLayout);
         mDrawerView = findViewById(R.id.drawerView);
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setupDrawer();
-
-
 
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerView
                 .addView(new DrawerHeader())
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS));
 
 
-        ActionBarDrawerToggle  drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer){
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
