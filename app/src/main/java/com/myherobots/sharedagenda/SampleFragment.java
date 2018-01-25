@@ -1,9 +1,6 @@
 package com.myherobots.sharedagenda;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,36 +8,158 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class SampleFragment extends Fragment {
 
+    private FirebaseListAdapter<ChatMessage> adapter;
+    ListView listOfMessages;
+    TextView name;
+    ImageView profilePicture;
+    Button addItem;
 
+    FirebaseUser user;
+    String facebookUserId;
+
+    private FirebaseDatabase database;
+    private DatabaseReference myDatabaseReference;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        final View rootView = inflater.inflate(R.layout.fragment_one, container,
+                false);
+
+        addItem = rootView.findViewById(R.id.add_button);
+        listOfMessages = rootView.findViewById(R.id.list_of_tasks);
+        name = rootView.findViewById(R.id.textView1);
+        profilePicture = rootView.findViewById(R.id.profile_image_user);
+
+        database = FirebaseDatabase.getInstance();
+        myDatabaseReference = database.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+
+            for (UserInfo profile : user.getProviderData()) {
+                // check if the provider id matches "facebook.com"
+                if (FacebookAuthProvider.PROVIDER_ID.equals(profile.getProviderId())) {
+                    facebookUserId = profile.getUid();
+                }
+            }
+
+            name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
+            String photoUrl = "https://graph.facebook.com/" + facebookUserId + "/picture?height=500";
+
+            Context c = getActivity().getApplicationContext();
+            Picasso.with(c).load(photoUrl).into(profilePicture);
+
+
+            displayChatMessages();
+        }
+
+
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_view, null);
+
+                final EditText edtTaskTitle;
+                edtTaskTitle = dialogView.findViewById(R.id.edt_new_task);
+                final EditText edtStartTime;
+                edtStartTime = dialogView.findViewById(R.id.edt_start_time);
+                final EditText edtEndTime;
+                edtEndTime = dialogView.findViewById(R.id.edt_end_time);
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Task name")
+                        .setView(dialogView)
+                        .setPositiveButton("Save", new DialogInterface. OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                FirebaseDatabase.getInstance()
+                                        .getReference()
+                                        .push()
+                                        .setValue(new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString()));
+
+                            }
+                        })
+                        .show();
+
+
+            }
+        });
+
+        return rootView;
+    }
+
+    private void displayChatMessages() {
+
+        adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class,
+                R.layout.list_element, FirebaseDatabase.getInstance().getReference()) {
+            @Override
+            protected void populateView(View v, ChatMessage model, int position) {
+                // Get references to the views of message.xml
+                TextView messageText = (TextView)v.findViewById(R.id.txt_name);
+                TextView messageUser = (TextView)v.findViewById(R.id.start_time);
+                TextView messageTime = (TextView)v.findViewById(R.id.end_time);
+
+                // Set their text
+                messageText.setText(model.getTitle());
+                messageUser.setText(model.getStartTime());
+
+                // Format the date before showing it
+                messageTime.setText(model.getEndTime());
+            }
+        };
+
+        listOfMessages.setAdapter(adapter);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
     ImageView profilePicture;
     TextView name;
@@ -121,7 +240,7 @@ public class SampleFragment extends Fragment {
         }; */
 
 
-
+/*
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -351,6 +470,6 @@ public class SampleFragment extends Fragment {
             dialog.show();
 
         }
-    }
+    } */
 
 }
