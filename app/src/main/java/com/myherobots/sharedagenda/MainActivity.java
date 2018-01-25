@@ -2,7 +2,6 @@ package com.myherobots.sharedagenda;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,12 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -24,6 +25,7 @@ import com.mindorks.placeholderview.PlaceHolderView;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "myApp";
     FirebaseUser user;
     ViewPager mViewPager;
     Toolbar mToolbar;
@@ -46,22 +48,34 @@ public class MainActivity extends AppCompatActivity {
             Intent myIntent = new Intent(MainActivity.this,
                     LoginActivity.class);
             startActivity(myIntent);
-        } else {
-            //displayChatMessage();
+            finish();
         }
+            //displayChatMessage();
 
-        mViewPager = findViewById(R.id.pager);
 
-        mViewPager.setAdapter(new SamplePagerAdapter(
-                getSupportFragmentManager()));
+            mViewPager = findViewById(R.id.pager);
 
-        mDrawer = findViewById(R.id.drawerLayout);
-        mDrawerView = findViewById(R.id.drawerView);
-        setupDrawer();
+            mViewPager.setAdapter(new SamplePagerAdapter(
+                    getSupportFragmentManager()));
+
+            mDrawer = findViewById(R.id.drawerLayout);
+            mDrawerView = findViewById(R.id.drawerView);
+            setupDrawer();
 
     }
 
+
+
+    @Override
+    protected void onResume() {
+
+
+
+        super.onResume();
+    }
+
     private void setupDrawer() {
+        Log.d(TAG, "CALLED METHOD SETUPDRAWER");
         mDrawerView
                 .addView(new DrawerHeader())
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
@@ -120,9 +134,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout_menu:
                 // Do whatever you want to do on logout click.
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+                finish();
+
+                /*
                 Intent myIntent = new Intent(MainActivity.this,
                         LoginActivity.class);
                 startActivity(myIntent);
+
+*/
 
                 return true;
             default:

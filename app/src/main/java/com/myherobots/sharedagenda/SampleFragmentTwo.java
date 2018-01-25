@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Objects;
 
 public class SampleFragmentTwo extends Fragment {
 
@@ -47,7 +44,7 @@ public class SampleFragmentTwo extends Fragment {
 
     private void displayChatMessage() {
 
-        adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class, R.layout.list_element, FirebaseDatabase.getInstance().getReference()) {
+      /*  adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class, R.layout.list_element, FirebaseDatabase.getInstance().getReference()) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 TextView text, start, end;
@@ -66,7 +63,7 @@ public class SampleFragmentTwo extends Fragment {
 
             }
         };
-        listTasks.setAdapter(adapter);
+        listTasks.setAdapter(adapter); */
 
     }
 }
