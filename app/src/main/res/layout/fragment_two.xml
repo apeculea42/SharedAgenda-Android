@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="aa"/>
+
         <ListView
             android:id="@+id/list_of_tasks"
             android:layout_width="220dp"

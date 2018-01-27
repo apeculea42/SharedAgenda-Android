@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;
     Toolbar mToolbar;
 
+    public static String uId;
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
 
@@ -55,15 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
             mViewPager = findViewById(R.id.pager);
 
+
             mViewPager.setAdapter(new SamplePagerAdapter(
                     getSupportFragmentManager()));
 
             mDrawer = findViewById(R.id.drawerLayout);
             mDrawerView = findViewById(R.id.drawerView);
             setupDrawer();
+            uId = user.getUid();
+
 
     }
-
 
 
     @Override

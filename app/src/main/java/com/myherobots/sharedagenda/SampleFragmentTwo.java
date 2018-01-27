@@ -29,41 +29,17 @@ public class SampleFragmentTwo extends Fragment {
                 false);
 
 
+        name = rootView.findViewById(R.id.tester);
 
         if (user != null) {
             name.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-            displayChatMessage();
+
         }
-
-
 
 
         return rootView;
 
     }
 
-    private void displayChatMessage() {
 
-      /*  adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class, R.layout.list_element, FirebaseDatabase.getInstance().getReference()) {
-            @Override
-            protected void populateView(View v, ChatMessage model, int position) {
-                TextView text, start, end;
-
-                if (!Objects.equals(model.getEmail(), FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
-                    text = v.findViewById(R.id.txt_name);
-                    start = v.findViewById(R.id.start_time);
-                    end = v.findViewById(R.id.end_time);
-
-
-                    text.setText(model.getTitle());
-                    start.setText(model.getStartTime());
-                    end.setText(model.getEndTime());
-
-                }
-
-            }
-        };
-        listTasks.setAdapter(adapter); */
-
-    }
 }

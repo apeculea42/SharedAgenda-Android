@@ -9,14 +9,16 @@ public class ChatMessage {
     private String mTitle;
     private String mStartTime;
     private String mEndTime;
+    private String mKey;
 
-    public ChatMessage(String mTitle, String mStartTime, String mEndTime) {
+    public ChatMessage(String mTitle, String mStartTime, String mEndTime, String mKey) {
 
 
 
         this.mTitle = mTitle;
         this.mStartTime = mStartTime;
         this.mEndTime = mEndTime;
+        this.mKey = mKey;
     }
 
     public ChatMessage() {
@@ -44,6 +46,14 @@ public class ChatMessage {
 
     public void setEndTime(String mEndTime) {
         this.mEndTime = mEndTime;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public void setKey(String mKey) {
+        this.mKey = mKey;
     }
 
 }

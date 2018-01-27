@@ -1,6 +1,9 @@
 package com.myherobots.sharedagenda;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,11 +11,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -23,19 +29,29 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 public class SampleFragment extends Fragment {
 
     private FirebaseListAdapter<ChatMessage> adapter;
+    ArrayList<ChatMessage> listItems;
     ListView listOfMessages;
     TextView name;
     ImageView profilePicture;
     Button addItem;
 
+    final ArrayList<String> keyList = new ArrayList<>();
+    final ArrayList<String> items = new ArrayList<>();
+
     FirebaseUser user;
     String facebookUserId;
 
     private FirebaseDatabase database;
-    private DatabaseReference myDatabaseReference;
+    private DatabaseReference myDatabaseReference, myDatabaseRefUsers;
+
+    TextView text2;
+    String userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,14 +60,24 @@ public class SampleFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_one, container,
                 false);
 
+
+       text2 = rootView.findViewById(R.id.test);
+
+
         addItem = rootView.findViewById(R.id.add_button);
         listOfMessages = rootView.findViewById(R.id.list_of_tasks);
         name = rootView.findViewById(R.id.textView1);
         profilePicture = rootView.findViewById(R.id.profile_image_user);
 
+        listItems = new ArrayList<>();
+
         database = FirebaseDatabase.getInstance();
         myDatabaseReference = database.getReference();
+        myDatabaseRefUsers = myDatabaseReference.child("Users");
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userId = user.getUid();
+
 
         if (user != null) {
 
@@ -68,7 +94,7 @@ public class SampleFragment extends Fragment {
 
             Context c = getActivity().getApplicationContext();
             Picasso.with(c).load(photoUrl).into(profilePicture);
-
+            myDatabaseRefUsers.child(userId).push();
 
             displayChatMessages();
         }
@@ -87,6 +113,55 @@ public class SampleFragment extends Fragment {
                 final EditText edtEndTime;
                 edtEndTime = dialogView.findViewById(R.id.edt_end_time);
 
+
+                edtStartTime.setInputType(0);
+                edtStartTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                            final Calendar c = Calendar.getInstance();
+
+
+                            // Launch Time Picker Dialog
+                            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                                    new TimePickerDialog.OnTimeSetListener() {
+
+                                        @Override
+                                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                                              int minute) {
+
+                                            edtStartTime.setText(String.format("%02d:%02d", hourOfDay, minute));
+                                        }
+                                    }, c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE)
+, false);
+                            timePickerDialog.show();
+                    }
+                });
+
+                edtEndTime.setInputType(0);
+                edtEndTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final Calendar c = Calendar.getInstance();
+
+
+                        // Launch Time Picker Dialog
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                                new TimePickerDialog.OnTimeSetListener() {
+
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+
+                                        edtEndTime.setText(String.format("%02d:%02d", hourOfDay, minute));
+                                    }
+                                }, c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE)
+                                , false);
+                        timePickerDialog.show();
+                    }
+                });
+
                 new AlertDialog.Builder(getContext())
                         .setTitle("Task name")
                         .setView(dialogView)
@@ -94,10 +169,13 @@ public class SampleFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                FirebaseDatabase.getInstance()
-                                        .getReference()
-                                        .push()
-                                        .setValue(new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString()));
+                                String key = myDatabaseReference.push().getKey();
+                                ChatMessage task = new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString(), key);
+
+
+
+                                myDatabaseRefUsers.child(userId).child(key).setValue(task);
+
 
                             }
                         })
@@ -106,14 +184,44 @@ public class SampleFragment extends Fragment {
 
             }
         });
+/*
+        myDatabaseReference.getRoot().child(user.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot messages : dataSnapshot.getChildren()) {
+                            keyList.add(messages.getKey());
+                            items.add(messages.getValue(String.class));
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });  */
+
+        listOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ViewDialog alert = new ViewDialog();
+
+
+                text2.setText("a");
+                alert.showDialog(getActivity(), listItems.get(i));
+            }
+        });
+
+
 
         return rootView;
     }
 
+
+
     private void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<ChatMessage>(getActivity(), ChatMessage.class,
-                R.layout.list_element, FirebaseDatabase.getInstance().getReference()) {
+                R.layout.list_element, myDatabaseRefUsers.child(user.getUid())) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
@@ -127,6 +235,8 @@ public class SampleFragment extends Fragment {
 
                 // Format the date before showing it
                 messageTime.setText(model.getEndTime());
+                listItems.add(position, model);
+
             }
         };
 
@@ -135,7 +245,68 @@ public class SampleFragment extends Fragment {
     }
 
 
+    public class ViewDialog {
 
+        public void showDialog(Activity activity, final ChatMessage task) {
+
+            final Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog);
+
+
+
+            final EditText task_name = dialog.findViewById(R.id.edt_title);
+            task_name.setText(task.getTitle());
+
+            final EditText start_time = dialog.findViewById(R.id.edt_start_time);
+            start_time.setText(task.getStartTime());
+
+
+            final EditText end_time = dialog.findViewById(R.id.edt_end_time);
+            end_time.setText(task.getEndTime());
+
+
+           Button dialogButtonDismiss= dialog.findViewById(R.id.btn_dismiss_dialog);
+            dialogButtonDismiss.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            Button deleteButton = dialog.findViewById(R.id.btn_delete_task);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listItems.remove(task);
+
+                    myDatabaseRefUsers.child(user.getUid()).child(task.getKey()).removeValue();
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+
+            Button saveEditButton = dialog.findViewById(R.id.btn_save_edit);
+            saveEditButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    task.setTitle(task_name.getText().toString());
+                    task.setStartTime(start_time.getText().toString());
+                    task.setEndTime(end_time.getText().toString());
+
+                    myDatabaseRefUsers.child(user.getUid()).child(task.getKey()).setValue(task);
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        }
+    }
 
 
 
