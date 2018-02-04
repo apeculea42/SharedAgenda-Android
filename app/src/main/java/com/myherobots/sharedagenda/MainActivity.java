@@ -3,8 +3,6 @@ package com.myherobots.sharedagenda;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,12 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "myApp";
     FirebaseUser user;
-    ViewPager mViewPager;
+//    ViewPager mViewPager;
     Toolbar mToolbar;
 
     public static String uId;
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
+
+    public Users users;
+    static Fragment one, two;
+  //  SamplePagerAdapter adapterF;
+
+    private ViewPager mViewPager;
+    private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
+
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Intent myIntent = new Intent(MainActivity.this,
@@ -53,27 +60,47 @@ public class MainActivity extends AppCompatActivity {
         }
             //displayChatMessage();
 
+     //   one = new SampleFragment();
+     //   two = new SampleFragmentTwo();
 
+/*
             mViewPager = findViewById(R.id.pager);
 
-
-            mViewPager.setAdapter(new SamplePagerAdapter(
-                    getSupportFragmentManager()));
+            adapterF = new SamplePagerAdapter(
+                    getSupportFragmentManager());
+            mViewPager.setAdapter(adapterF);
 
             mDrawer = findViewById(R.id.drawerLayout);
             mDrawerView = findViewById(R.id.drawerView);
             setupDrawer();
-            uId = user.getUid();
+*/
 
+       mViewPager = findViewById(R.id.pager);
+       mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+       setupViewPager(mViewPager);
 
+       if (user != null) {
+           uId = user.getUid();
+       }
     }
 
+    private void setupViewPager(ViewPager viewPager){
+        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FragmentUser(), "FragmentUser");
+        adapter.addFragment(new FragmentPartener(), "FragmentPartener");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setViewPager(int fragmentNumber) {
+        mViewPager.setCurrentItem(fragmentNumber);
+    }
+
+    public String sendId(){
+        return uId;
+    }
 
     @Override
     protected void onResume() {
-
-
-
         super.onResume();
     }
 
@@ -100,8 +127,12 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
+/*
+    @Override
+    public void onArticleSelected(int position) {
+    } */
 
-    public class SamplePagerAdapter extends FragmentPagerAdapter {
+   /* public class SamplePagerAdapter extends FragmentPagerAdapter implements SampleFragment.OnFragmentInteractionListener {
 
         public SamplePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -109,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            /** Show a Fragment based on the position of the current screen */
+
             if (position == 0) {
                 return new SampleFragment();
             } else
@@ -121,8 +152,13 @@ public class MainActivity extends AppCompatActivity {
             // Show 2 total pages.
             return 2;
         }
-    }
 
+        @Override
+        public void onFragmentInteraction(String name, String desc) {
+            adapterF.onFragmentInteraction(name,desc);
+        }
+    }
+ */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

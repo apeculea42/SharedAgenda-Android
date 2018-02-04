@@ -53,6 +53,7 @@ public class SampleFragment extends Fragment {
     TextView text2;
     String userId;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +96,8 @@ public class SampleFragment extends Fragment {
             Context c = getActivity().getApplicationContext();
             Picasso.with(c).load(photoUrl).into(profilePicture);
             myDatabaseRefUsers.child(userId).push();
+
+            text2.setText(facebookUserId);
 
             displayChatMessages();
         }
@@ -170,7 +173,7 @@ public class SampleFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 String key = myDatabaseReference.push().getKey();
-                                ChatMessage task = new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString(), key);
+                                ChatMessage task = new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString(), key, user.getUid());
 
 
 
@@ -184,21 +187,6 @@ public class SampleFragment extends Fragment {
 
             }
         });
-/*
-        myDatabaseReference.getRoot().child(user.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot messages : dataSnapshot.getChildren()) {
-                            keyList.add(messages.getKey());
-                            items.add(messages.getValue(String.class));
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });  */
 
         listOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -226,15 +214,15 @@ public class SampleFragment extends Fragment {
             protected void populateView(View v, ChatMessage model, int position) {
                 // Get references to the views of message.xml
                 TextView messageText = (TextView)v.findViewById(R.id.txt_name);
-                TextView messageUser = (TextView)v.findViewById(R.id.start_time);
-                TextView messageTime = (TextView)v.findViewById(R.id.end_time);
+                TextView startTime = (TextView)v.findViewById(R.id.start_time);
+                TextView endTime = (TextView)v.findViewById(R.id.end_time);
 
                 // Set their text
                 messageText.setText(model.getTitle());
-                messageUser.setText(model.getStartTime());
+                startTime.setText(model.getStartTime());
 
                 // Format the date before showing it
-                messageTime.setText(model.getEndTime());
+                endTime.setText(model.getEndTime());
                 listItems.add(position, model);
 
             }
@@ -242,6 +230,11 @@ public class SampleFragment extends Fragment {
 
         listOfMessages.setAdapter(adapter);
 
+    }
+
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(String name, String desc);
     }
 
 

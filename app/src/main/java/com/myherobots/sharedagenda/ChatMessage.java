@@ -10,8 +10,9 @@ public class ChatMessage {
     private String mStartTime;
     private String mEndTime;
     private String mKey;
+    private String mUid;
 
-    public ChatMessage(String mTitle, String mStartTime, String mEndTime, String mKey) {
+    public ChatMessage(String mTitle, String mStartTime, String mEndTime, String mKey, String mUid) {
 
 
 
@@ -19,6 +20,7 @@ public class ChatMessage {
         this.mStartTime = mStartTime;
         this.mEndTime = mEndTime;
         this.mKey = mKey;
+        this.mUid = mUid;
     }
 
     public ChatMessage() {
@@ -54,6 +56,14 @@ public class ChatMessage {
 
     public void setKey(String mKey) {
         this.mKey = mKey;
+    }
+
+    public String getUid() {
+        return mUid;
+    }
+
+    public void setUid(String mUid) {
+        this.mUid = mUid;
     }
 
 }
