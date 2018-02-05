@@ -10,20 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
- * Created by ale on 23/01/2018.
+ * Created by ale on 04/02/2018.
  */
 
-public class CustomAdapter extends ArrayAdapter<Users> {
+public class UsersAdapter extends ArrayAdapter<String> {
 
     private Context mContext;
-    private List<Users> mItems;
+    private List<String> mItems;
 
-    public CustomAdapter(Context context, List<Users> items) {
+    public UsersAdapter(Context context, List<String> items){
         super(context, R.layout.list_users);
         mContext = context;
         mItems = items;
@@ -35,20 +33,20 @@ public class CustomAdapter extends ArrayAdapter<Users> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         view = inflater.inflate(R.layout.list_users, null, false);
 
-        ImageView photo = view.findViewById(R.id.profile_image_user);
-        Picasso.with(mContext).load(mItems.get(position).getUrl()).into(photo);
+        TextView txtName = view.findViewById(R.id.txt_name);
+        txtName.setText(mItems.get(position));
 
-        TextView name = view.findViewById(R.id.txt_name);
-        name.setText(mItems.get(position).getName());
+        ImageView image = view.findViewById(R.id.profile_image_user);
 
 
-        return view;
+
+
+      return view;
     }
 
     @Override
     public int getCount() {
         return mItems.size();
     }
-
 
 }

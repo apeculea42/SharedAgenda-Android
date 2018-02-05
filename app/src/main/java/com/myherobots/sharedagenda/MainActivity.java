@@ -1,8 +1,9 @@
 package com.myherobots.sharedagenda;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,25 +20,26 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mindorks.placeholderview.PlaceHolderView;
+import com.myherobots.MyApplication;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "myApp";
     FirebaseUser user;
-//    ViewPager mViewPager;
+
     Toolbar mToolbar;
 
     public static String uId;
     private PlaceHolderView mDrawerView;
     private DrawerLayout mDrawer;
 
-    public Users users;
-    static Fragment one, two;
-  //  SamplePagerAdapter adapterF;
-
     private ViewPager mViewPager;
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
+
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
+    String photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +60,40 @@ public class MainActivity extends AppCompatActivity {
             startActivity(myIntent);
             finish();
         }
-            //displayChatMessage();
-
-     //   one = new SampleFragment();
-     //   two = new SampleFragmentTwo();
-
-/*
-            mViewPager = findViewById(R.id.pager);
-
-            adapterF = new SamplePagerAdapter(
-                    getSupportFragmentManager());
-            mViewPager.setAdapter(adapterF);
-
-            mDrawer = findViewById(R.id.drawerLayout);
-            mDrawerView = findViewById(R.id.drawerView);
-            setupDrawer();
-*/
 
        mViewPager = findViewById(R.id.pager);
        mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
        setupViewPager(mViewPager);
 
-       if (user != null) {
+        Context context = MyApplication.getAppContext();
+        sharedPref = context.getSharedPreferences("UsersNames", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
+
+        if (user != null) {
            uId = user.getUid();
+           editor.putString(uId, user.getDisplayName());
+           editor.apply();
+
        }
     }
+
+    public SharedPreferences sendPref() {
+        return sharedPref;
+    }
+
+    public void receivePhotoUrl(String url){
+        photoUrl = url;
+        sendPhotoUrl();
+    }
+
+    public void sendPhotoUrl() {
+
+
+        editor.putString(uId.concat("photo"), photoUrl);
+        editor.apply();
+    }
+
 
     private void setupViewPager(ViewPager viewPager){
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
@@ -127,38 +138,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
-/*
-    @Override
-    public void onArticleSelected(int position) {
-    } */
-
-   /* public class SamplePagerAdapter extends FragmentPagerAdapter implements SampleFragment.OnFragmentInteractionListener {
-
-        public SamplePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            if (position == 0) {
-                return new SampleFragment();
-            } else
-                return new SampleFragmentTwo();
-        }
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public void onFragmentInteraction(String name, String desc) {
-            adapterF.onFragmentInteraction(name,desc);
-        }
-    }
- */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

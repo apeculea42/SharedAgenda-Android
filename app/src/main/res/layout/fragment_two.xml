@@ -8,31 +8,56 @@
     tools:context="com.myherobots.sharedagenda.SampleFragment"
     >
 
+    <TextView
+        android:id="@+id/users_list_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose your partener!"
+        android:textColor="#EF5E24"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:padding="10dp"/>
+
+    <ListView
+        android:id="@+id/users_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    </ListView>
 
     <LinearLayout
+        android:id="@+id/partener_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image_user"
-            android:layout_width="78dp"
-            android:layout_height="78dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            app:civ_border_color="#EF5E24"
-            app:civ_border_width="2dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="PAGE1" />
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image_user"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                app:civ_border_color="#EF5E24"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="3dp"
+                android:text="PAGE"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
 
-
-    </LinearLayout>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,8 +66,8 @@
 
         <ListView
             android:id="@+id/list_of_tasks"
-            android:layout_width="220dp"
-            android:layout_height="350dp"
+            android:layout_width="240dp"
+            android:layout_height="300dp"
             android:layout_gravity="center"
             android:padding="7dp"
             />
@@ -51,19 +76,20 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADD"
+            android:text="Change"
             android:layout_gravity="center"/>
 
-
         <TextView
-            android:id="@+id/tester"
+            android:id="@+id/test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aa"/>
+            android:layout_gravity="center"
+            android:text="testare"
+            />
 
 
     </LinearLayout>
 
-
+    </LinearLayout>
 
 </LinearLayout>

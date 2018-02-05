@@ -6,35 +6,46 @@ package com.myherobots.sharedagenda;
 
 public class Users {
 
-    private String mCurrent;
-    private String mPartenerUser;
+    private String mId;
+    private String mName;
+    private String mUrl;
 
 
-    public Users(String mCurrent, String mPartenerUser) {
-        this.mCurrent = mCurrent;
-        this.mPartenerUser = mPartenerUser;
+    public Users(String mId, String mName, String mUrl) {
+        this.mId = mId;
+        this.mName = mName;
+        this.mUrl = mUrl;
     }
 
     public Users() {
     }
 
-    public String getCurrentUser() {
-        return mCurrent;
+    public String getName() {
+        return mName;
     }
 
-    public void setCurrentUser(String mCurrent) {
+    public void setName(String mName) {
 
-        this.mCurrent = mCurrent;
+        this.mName = mName;
     }
 
-    public String getPartenerUser() {
-
-        return mPartenerUser;
+    public String getId() {
+        return mId;
     }
 
-    public void setPartenerUser(String mPartener) {
+    public void setId(String mId) {
 
-        this.mPartenerUser = mPartenerUser;
+        this.mId = mId;
+    }
+
+    public String getUrl() {
+
+        return mUrl;
+    }
+
+    public void seturl(String mUrl) {
+
+        this.mUrl = mUrl;
     }
 
 

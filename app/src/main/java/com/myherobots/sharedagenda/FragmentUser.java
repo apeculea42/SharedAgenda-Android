@@ -47,9 +47,6 @@ public class FragmentUser extends Fragment {
     ImageView profilePicture;
     Button addItem;
 
-    final ArrayList<String> keyList = new ArrayList<>();
-    final ArrayList<String> items = new ArrayList<>();
-
     FirebaseUser user;
     String facebookUserId;
 
@@ -101,10 +98,11 @@ public class FragmentUser extends Fragment {
             myDatabaseRefUsers.child(userId).push();
 
             text2.setText(facebookUserId);
+            ((MainActivity)getActivity()).receivePhotoUrl(photoUrl);
 
             displayChatMessages();
 
-            ((MainActivity)getActivity()).sendId();
+     //       ((MainActivity)getActivity()).sendId();
         }
 
 
@@ -178,7 +176,7 @@ public class FragmentUser extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 String key = myDatabaseReference.push().getKey();
-                                ChatMessage task = new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString(), key, user.getUid());
+                                ChatMessage task = new ChatMessage(edtTaskTitle.getText().toString(), edtStartTime.getText().toString(), edtEndTime.getText().toString(), key, userId);
 
 
 
