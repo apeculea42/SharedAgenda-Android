@@ -74,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
            uId = user.getUid();
            editor.putString(uId, user.getDisplayName());
            editor.apply();
+            mDrawer = findViewById(R.id.drawerLayout);
+            mDrawerView = findViewById(R.id.drawerView);
+            setupDrawer();
+        }
 
-       }
     }
 
     public SharedPreferences sendPref() {

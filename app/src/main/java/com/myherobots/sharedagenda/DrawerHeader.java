@@ -36,7 +36,7 @@ public class DrawerHeader {
 
     @Resolve
     private void onResolved() {
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+
             nameTxt.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
             emailTxt.setText("work in progress");
 
@@ -56,7 +56,7 @@ public class DrawerHeader {
             }
 
 
-        }
+
 
     }
 }

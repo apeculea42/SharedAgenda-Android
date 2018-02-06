@@ -84,7 +84,6 @@ public class FragmentPartener extends Fragment {
             usersList.setVisibility(View.GONE);
             usersListText.setVisibility(View.GONE);
             partenerLayout.setVisibility(View.VISIBLE);
-            test.setText(pref.getString("partenerName", null));
 
         } else {
             usersList.setVisibility(View.VISIBLE);
@@ -186,6 +185,7 @@ public class FragmentPartener extends Fragment {
         };
 
         listOfMessages.setAdapter(adapterTasks);
+        test.setText(pref.getString("partener", null));
 
     }
 

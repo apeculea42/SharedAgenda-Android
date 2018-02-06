@@ -66,18 +66,32 @@
 
         <ListView
             android:id="@+id/list_of_tasks"
-            android:layout_width="240dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
             android:layout_gravity="center"
-            android:padding="7dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+
             />
 
         <Button
             android:id="@+id/add_button"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:background="@drawable/buttonshape"
+            android:drawableStart="@drawable/ic_note_add_black_24dp"
+
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:text="Change"
-            android:layout_gravity="center"/>
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:layout_margin="10dp"/>
+
+
 
         <TextView
             android:id="@+id/test"
@@ -86,7 +100,6 @@
             android:layout_gravity="center"
             android:text="testare"
             />
-
 
     </LinearLayout>
 

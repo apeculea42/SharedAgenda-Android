@@ -62,6 +62,7 @@ public class DrawerMenuItem {
                 break;
             case DRAWER_MENU_ITEM_REQUESTS:
                 Toast.makeText(mContext, "Requests", Toast.LENGTH_SHORT).show();
+
                 if(mCallBack != null)mCallBack.onRequestMenuSelected();
                 break;
 

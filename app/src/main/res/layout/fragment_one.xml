@@ -2,16 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
     android:id="@+id/fragment_layout"
-    tools:context="com.myherobots.sharedagenda.SampleFragment"
-    >
+    tools:context="com.myherobots.sharedagenda.SampleFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="108dp"
+        android:layout_height="123dp"
         android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,10 +28,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="15dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="PAGE"
-        android:paddingTop="3dp"/>
+        android:paddingTop="4dp"/>
 
 
 
@@ -40,22 +40,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+       >
 
         <ListView
             android:id="@+id/list_of_tasks"
-            android:layout_width="240dp"
-            android:layout_height="400dp"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
             android:layout_gravity="center"
-            android:padding="7dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+
             />
+
 
         <Button
             android:id="@+id/add_button"
-            android:layout_width="wrap_content"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
-            android:text="ADD"
-            android:layout_gravity="center"/>
+
+            android:layout_gravity="center"
+            android:background="@drawable/buttonshape"
+            android:drawableStart="@drawable/ic_note_add_black_24dp"
+
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="new"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:layout_margin="10dp"/>
+
+
 
         <TextView
             android:id="@+id/test"

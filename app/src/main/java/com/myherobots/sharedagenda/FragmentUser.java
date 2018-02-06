@@ -98,11 +98,11 @@ public class FragmentUser extends Fragment {
             myDatabaseRefUsers.child(userId).push();
 
             text2.setText(facebookUserId);
+
             ((MainActivity)getActivity()).receivePhotoUrl(photoUrl);
 
             displayChatMessages();
 
-     //       ((MainActivity)getActivity()).sendId();
         }
 
 
@@ -194,10 +194,9 @@ public class FragmentUser extends Fragment {
         listOfMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FragmentUser.ViewDialog alert = new FragmentUser.ViewDialog();
+                ViewDialog alert = new ViewDialog();
 
-
-                text2.setText("a");
+                text2.setText(listItems.get(i).getTitle());
                 alert.showDialog(getActivity(), listItems.get(i));
             }
         });
@@ -215,16 +214,14 @@ public class FragmentUser extends Fragment {
                 R.layout.list_element, myDatabaseRefUsers.child(user.getUid())) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.txt_name);
-                TextView startTime = (TextView)v.findViewById(R.id.start_time);
-                TextView endTime = (TextView)v.findViewById(R.id.end_time);
 
-                // Set their text
+                TextView messageText = v.findViewById(R.id.txt_name);
+                TextView startTime = v.findViewById(R.id.start_time);
+                TextView endTime = v.findViewById(R.id.end_time);
+
                 messageText.setText(model.getTitle());
                 startTime.setText(model.getStartTime());
 
-                // Format the date before showing it
                 endTime.setText(model.getEndTime());
                 listItems.add(position, model);
 
@@ -269,9 +266,9 @@ public class FragmentUser extends Fragment {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listItems.remove(task);
 
                     myDatabaseRefUsers.child(user.getUid()).child(task.getKey()).removeValue();
+                    listItems.remove(task);
                     adapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }
